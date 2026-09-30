@@ -1,0 +1,97 @@
+'use client'
+
+import { useState } from 'react'
+import {
+  ArrowRight,
+  BookOpen,
+  Bus,
+  CheckCircle2,
+  ChevronDown,
+  Clock3,
+  GraduationCap,
+  HeartHandshake,
+  Landmark,
+  Menu,
+  Monitor,
+  Phone,
+  ShieldCheck,
+  Sparkles,
+  Trophy,
+  Users,
+  X,
+} from 'lucide-react'
+
+const logoUrl = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-K5gmvm7cTVsDIz6pp1Q55IbHWUfZzo.png'
+
+const navItems = ['About us', 'Academics', 'Tahfeez', 'Facilities', 'Fees', 'Contact']
+const facilities = [
+  ['Digital classrooms', Monitor],
+  ['ICT & computer laboratory', Monitor],
+  ['Academic library & science labs', BookOpen],
+  ['Boys’ & girls’ boarding hostels', Landmark],
+  ['Recreation grounds & swimming pool', Trophy],
+  ['24/7 security & power backup', ShieldCheck],
+  ['Daily student transit fleet', Bus],
+  ['English & Arabic fluency', GraduationCap],
+] as const
+
+export default function Page() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState<'dunya' | 'deen'>('dunya')
+  const [showFees, setShowFees] = useState(false)
+
+  return (
+    <main className="min-h-screen overflow-hidden bg-[#f8fafc] text-[#0a0a0a]">
+      <div className="bg-[#c8102e] px-4 py-2 text-center text-xs font-semibold tracking-wide text-white sm:text-sm">
+        Admissions ongoing for the 2026/2027 academic session · Day & boarding available
+      </div>
+
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0b1e3d]/95 text-white backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 lg:px-8">
+          <a href="#top" className="flex items-center gap-3" aria-label="Al-Burhan Academy home">
+            <img src={logoUrl} alt="Official Al-Burhan Academy logo" className="h-14 w-14 rounded-full bg-white object-contain p-1" />
+            <div className="hidden sm:block">
+              <p className="font-serif text-lg font-bold tracking-tight">Al-Burhan Academy</p>
+              <p className="text-[10px] uppercase tracking-[0.24em] text-slate-300">The Fountain of Knowledge</p>
+            </div>
+          </a>
+          <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary navigation">
+            {navItems.map((item) => <a key={item} href={`#${item.toLowerCase().replaceAll(' ', '-')}`} className="text-sm text-slate-200 transition hover:text-white">{item}</a>)}
+          </nav>
+          <div className="hidden items-center gap-4 lg:flex">
+            <a href="tel:+2349064015827" className="flex items-center gap-2 text-sm text-slate-200"><Phone className="h-4 w-4" /> +234 906 401 5827</a>
+            <a href="#admissions" className="rounded-full bg-[#c8102e] px-5 py-2.5 text-sm font-bold transition hover:bg-[#990f23]">Apply now</a>
+          </div>
+          <button className="rounded-lg p-2 lg:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen}>{menuOpen ? <X /> : <Menu />}</button>
+        </div>
+        {menuOpen && <nav className="border-t border-white/10 px-5 py-4 lg:hidden" aria-label="Mobile navigation">{navItems.map((item) => <a onClick={() => setMenuOpen(false)} key={item} href={`#${item.toLowerCase().replaceAll(' ', '-')}`} className="block border-b border-white/10 py-3 text-sm">{item}</a>)}<a href="#admissions" className="mt-4 block rounded-full bg-[#c8102e] px-5 py-3 text-center font-bold">Apply now</a></nav>}
+      </header>
+
+      <section id="top" className="relative bg-[#0b1e3d] text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(30,58,138,.5),transparent_36%),linear-gradient(135deg,transparent_60%,rgba(200,16,46,.12))]" />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 lg:grid-cols-[1.1fr_.9fr] lg:px-8 lg:py-28">
+          <div>
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200"><Sparkles className="h-4 w-4 text-[#f3c969]" /> Deen & Dunya education</div>
+            <h1 className="max-w-3xl font-serif text-4xl font-bold leading-[1.08] tracking-tight sm:text-6xl">Nurturing intellectual excellence & spiritual devotion.</h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">A premier government-approved co-educational day and boarding institution blending the Universal Basic Education curriculum with advanced Qur’anic memorisation.</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><a href="#admissions" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#c8102e] px-6 py-3.5 font-bold transition hover:-translate-y-0.5 hover:bg-[#990f23]">Begin online admission <ArrowRight className="h-4 w-4" /></a><a href="#fees" className="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-3.5 font-bold transition hover:bg-white/10">View fee guide</a></div>
+            <div className="mt-10 grid max-w-xl grid-cols-2 gap-4 border-t border-white/15 pt-6 text-sm text-slate-300 sm:grid-cols-4"><span><b className="block text-xl text-white">2014</b>Established</span><span><b className="block text-xl text-white">NAPPS</b>Registered</span><span><b className="block text-xl text-white">WAEC</b>Accredited</span><span><b className="block text-xl text-white">Ringim</b>Jigawa State</span></div>
+          </div>
+          <div className="relative mx-auto w-full max-w-md lg:ml-auto"><div className="absolute -inset-5 rounded-[2rem] border border-white/10" /><div className="relative rounded-[2rem] bg-white p-5 shadow-2xl"><img src={logoUrl} alt="Al-Burhan Academy official crest" className="mx-auto h-64 w-full rounded-2xl bg-[#f1f5f9] object-contain p-5" /><div className="mt-5 rounded-xl bg-[#0b1e3d] p-5 text-center text-white"><p className="font-serif text-xl font-bold">Knowledge. Character. Service.</p><p className="mt-1 text-sm text-slate-300">A foundation for the next generation.</p></div></div></div>
+        </div>
+      </section>
+
+      <section id="about-us" className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28"><div className="grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:items-center"><div><p className="text-sm font-bold uppercase tracking-[0.2em] text-[#c8102e]">Our heritage</p><h2 className="mt-3 font-serif text-4xl font-bold text-[#0b1e3d]">Where purpose meets possibility.</h2><p className="mt-5 leading-8 text-slate-600">Al-Burhan Academy was established to raise a generation grounded in faith, confident in knowledge, and ready to serve their communities with excellence.</p><a href="#contact" className="mt-7 inline-flex items-center gap-2 font-bold text-[#1e3a8a]">Discover our story <ArrowRight className="h-4 w-4" /></a></div><div className="grid gap-4 sm:grid-cols-2"><article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><HeartHandshake className="h-8 w-8 text-[#c8102e]" /><h3 className="mt-5 font-serif text-xl font-bold text-[#0b1e3d]">A trusted foundation</h3><p className="mt-2 text-sm leading-6 text-slate-600">Led by Hon. Kadi Dr. Bala Musa, with the support of the Ringim Emirate Council.</p></article><article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><Users className="h-8 w-8 text-[#c8102e]" /><h3 className="mt-5 font-serif text-xl font-bold text-[#0b1e3d]">Every learner matters</h3><p className="mt-2 text-sm leading-6 text-slate-600">A safe, inclusive environment for day and boarding students to grow in confidence.</p></article></div></div></section>
+
+      <section id="academics" className="bg-[#f1f5f9] px-5 py-20 lg:px-8 lg:py-28"><div className="mx-auto max-w-7xl"><div className="max-w-2xl"><p className="text-sm font-bold uppercase tracking-[0.2em] text-[#c8102e]">The dual-curriculum engine</p><h2 className="mt-3 font-serif text-4xl font-bold text-[#0b1e3d]">One education. Two worlds. Unlimited potential.</h2></div><div className="mt-10 grid gap-8 lg:grid-cols-[.7fr_1.3fr]"><div className="flex flex-col gap-3"><button onClick={() => setActiveTab('dunya')} className={`rounded-2xl p-6 text-left transition ${activeTab === 'dunya' ? 'bg-[#0b1e3d] text-white shadow-xl' : 'bg-white text-[#0b1e3d]'}`}><span className="text-sm font-bold uppercase tracking-widest text-[#c8102e]">Dunya</span><h3 className="mt-2 font-serif text-2xl font-bold">Western academics</h3><p className="mt-2 text-sm opacity-75">A rigorous pathway from early years to WAEC and NECO.</p></button><button onClick={() => setActiveTab('deen')} className={`rounded-2xl p-6 text-left transition ${activeTab === 'deen' ? 'bg-[#0b1e3d] text-white shadow-xl' : 'bg-white text-[#0b1e3d]'}`}><span className="text-sm font-bold uppercase tracking-widest text-[#c8102e]">Deen</span><h3 className="mt-2 font-serif text-2xl font-bold">Islamic & Arabic studies</h3><p className="mt-2 text-sm opacity-75">Structured Hifz, Arabic fluency, and a living connection to the Qur’an.</p></button></div><div className="rounded-2xl bg-white p-7 shadow-sm sm:p-10"><div className="flex items-center gap-3"><div className="rounded-xl bg-[#c8102e]/10 p-3 text-[#c8102e]">{activeTab === 'dunya' ? <GraduationCap /> : <BookOpen />}</div><h3 className="font-serif text-2xl font-bold text-[#0b1e3d]">{activeTab === 'dunya' ? 'Academic excellence' : 'Tahfeez programme'}</h3></div><ul className="mt-8 grid gap-4 sm:grid-cols-2">{(activeTab === 'dunya' ? ['Pre-nursery, nursery & primary', 'Junior secondary JSS 1–3', 'Science & arts SSS departments', 'WAEC & NECO preparation'] : ['Structured Qur’anic memorisation (Hifz)', 'English & Arabic fluency', 'Annual Hizb recitation competition', 'Character, adab & spiritual devotion']).map(item => <li key={item} className="flex gap-3 text-slate-600"><CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#c8102e]" />{item}</li>)}</ul></div></div></div></section>
+
+      <section id="facilities" className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28"><div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><p className="text-sm font-bold uppercase tracking-[0.2em] text-[#c8102e]">Campus life</p><h2 className="mt-3 font-serif text-4xl font-bold text-[#0b1e3d]">Built for curious minds.</h2></div><p className="max-w-sm text-sm leading-6 text-slate-600">Thoughtful spaces, caring systems, and the tools students need to thrive.</p></div><div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{facilities.map(([label, Icon]) => <div key={label} className="rounded-2xl border border-slate-200 bg-white p-5 transition hover:-translate-y-1 hover:shadow-lg"><Icon className="h-7 w-7 text-[#1e3a8a]" /><p className="mt-5 font-semibold text-[#0b1e3d]">{label}</p></div>)}</div></section>
+
+      <section id="fees" className="bg-[#0b1e3d] px-5 py-20 text-white lg:px-8 lg:py-24"><div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-center"><div><p className="text-sm font-bold uppercase tracking-[0.2em] text-[#f3c969]">Admissions & fees</p><h2 className="mt-3 font-serif text-4xl font-bold">A clear path to joining Al-Burhan.</h2><p className="mt-5 leading-7 text-slate-300">Tuition ranges from ₦40,000 to ₦120,000 per term depending on section and day or boarding track.</p><button onClick={() => setShowFees(!showFees)} className="mt-7 inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-3 font-semibold hover:bg-white/10">{showFees ? 'Hide' : 'See'} fee guide <ChevronDown className={`h-4 w-4 transition ${showFees ? 'rotate-180' : ''}`} /></button></div><div className="rounded-2xl bg-white p-6 text-[#0b1e3d] sm:p-8"><div className="grid grid-cols-3 border-b border-slate-200 pb-4 text-sm font-bold"><span>Section</span><span>Day</span><span>Boarding</span></div>{[['Nursery', '₦40,000', '₦—'], ['Primary', '₦55,000', '₦95,000'], ['JSS / SSS', '₦75,000', '₦120,000']].map(row => <div key={row[0]} className="grid grid-cols-3 border-b border-slate-100 py-4 text-sm"><span className="font-semibold">{row[0]}</span><span>{row[1]}</span><span>{row[2]}</span></div>)}{showFees && <p className="pt-5 text-sm text-slate-500">Tuition includes development levy, ICT access, and laboratory fees. Contact the admissions office for the current prospectus and assessment dates.</p>}</div></div></div></section>
+
+      <section id="admissions" className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28"><div className="rounded-3xl border border-[#c8102e]/15 bg-[#fff7f8] p-7 sm:p-12"><div className="grid gap-10 lg:grid-cols-[1fr_.8fr] lg:items-center"><div><p className="text-sm font-bold uppercase tracking-[0.2em] text-[#c8102e]">Start your journey</p><h2 className="mt-3 font-serif text-4xl font-bold text-[#0b1e3d]">Admissions are now open.</h2><p className="mt-5 max-w-xl leading-7 text-slate-600">Complete your application, attend the entrance screening and Tahfeez assessment, then receive your provisional admission letter.</p><div className="mt-8 grid gap-4 sm:grid-cols-3">{['Online application', 'Entrance screening', 'Fee clearance'].map((step, i) => <div key={step}><span className="text-2xl font-bold text-[#c8102e]">0{i + 1}</span><p className="mt-1 font-semibold text-[#0b1e3d]">{step}</p></div>)}</div></div><div className="rounded-2xl bg-[#0b1e3d] p-7 text-white"><Clock3 className="h-8 w-8 text-[#f3c969]" /><h3 className="mt-5 font-serif text-2xl font-bold">Speak to admissions</h3><p className="mt-2 text-sm leading-6 text-slate-300">Our team can guide you through classes, tracks, assessments and fees.</p><a href="tel:+2349064015827" className="mt-6 flex items-center justify-center gap-2 rounded-full bg-[#c8102e] px-5 py-3 font-bold hover:bg-[#990f23]"><Phone className="h-4 w-4" /> +234 906 401 5827</a></div></div></div></section>
+
+      <footer id="contact" className="bg-[#07152d] px-5 py-14 text-white lg:px-8"><div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_.8fr_.8fr]"><div><img src={logoUrl} alt="Al-Burhan Academy logo" className="h-16 w-16 rounded-full bg-white object-contain p-1" /><p className="mt-5 max-w-sm text-sm leading-6 text-slate-400">The Fountain of Knowledge. A premier co-educational day and boarding academy in Ringim, Jigawa State.</p></div><div><h3 className="font-bold">Visit us</h3><p className="mt-4 text-sm leading-6 text-slate-400">Km 50, Along Ringim-Kanya Babba Road<br />Opp. Government Unity Secondary School<br />Ringim LGA, Jigawa State</p></div><div><h3 className="font-bold">Contact</h3><a href="tel:+2349064015827" className="mt-4 block text-sm text-slate-400 hover:text-white">+234 906 401 5827</a><a href="mailto:alburhanacademyringim@gmail.com" className="mt-2 block break-all text-sm text-slate-400 hover:text-white">alburhanacademyringim@gmail.com</a></div></div><div className="mx-auto mt-12 max-w-7xl border-t border-white/10 pt-6 text-xs text-slate-500">© 2026 Al-Burhan Academy, Ringim. All rights reserved.</div></footer>
+    </main>
+  )
+}
