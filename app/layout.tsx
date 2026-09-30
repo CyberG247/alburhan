@@ -4,7 +4,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Al-Burhan Academy | The Fountain of Knowledge',
-  description: 'Al-Burhan Academy in Ringim, Jigawa State — nurturing intellectual excellence and spiritual devotion through Deen & Dunya education.',
+  description: 'Al-Burhan Academy in Ringim, Jigawa State — nurturing intellectual excellence and spiritual devotion through Deen & Dunya education, with secure online admissions.',
   generator: 'v0.app',
   icons: {
     icon: [
