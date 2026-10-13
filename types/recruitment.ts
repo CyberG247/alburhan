@@ -1,50 +1,650 @@
-export const positions = [
-  { slug: 'head-teacher', title: 'Head Teacher', department: 'Administrative & Leadership', summary: 'Lead curriculum integration, faculty supervision, compliance and community outreach.', qualification: 'Master’s or B.Ed / B.Sc with PGDE; 5–7 years leadership experience; TRCN preferred.', uploads: ['passport', 'cv', 'certificates', 'adminProofs'] },
-  { slug: 'secretary', title: 'Secretary', department: 'Administrative & Leadership', summary: 'Manage front-office communications, e-registry, files and executive scheduling.', qualification: 'B.Sc/HND in Secretarial Studies, OTM, English or Mass Communication; 2+ years experience.', uploads: ['passport', 'cv', 'certificates'] },
-  { slug: 'ict-officer', title: 'ICT Officer', department: 'Technical & ICT', summary: 'Maintain networks, laboratories, portal infrastructure and digital literacy programmes.', qualification: 'B.Sc/HND in Computer Science, Cybersecurity, Software Engineering or IT.', uploads: ['passport', 'cv', 'certificates', 'techCerts'] },
-  { slug: 'teacher', title: 'Teacher', department: 'Academic & Religious Faculty', summary: 'Deliver subject mastery and integrated Deen & Dunya learning.', qualification: 'Ph.D., M.Sc, B.Sc(Ed), B.A(Ed), B.Sc, HND or NCE in a relevant subject.', uploads: ['passport', 'cv', 'certificates', 'transcripts'] },
-  { slug: 'security-officer', title: 'Security Officer', department: 'Campus Safety & Operations', summary: 'Direct physical safety, guard details, emergency response and investigations.', qualification: 'Retired military/police, or B.Sc/HND in Criminology/Security Studies; 3+ years supervisory experience.', uploads: ['passport', 'cv', 'serviceCerts', 'id'] },
-  { slug: 'security-guard', title: 'Security Guard', department: 'Campus Safety & Operations', summary: 'Enforce access control, visitor screening, patrols and gate logs.', qualification: 'SSCE/WAEC/NECO/Trade Test; physical fitness and basic English/Hausa.', uploads: ['passport', 'cv', 'certificates', 'guarantor'] },
-  { slug: 'kitchen-master', title: 'Kitchen Master', department: 'Food Services & Nutrition', summary: 'Oversee institutional kitchen logistics, hygiene, inventories and meal service.', qualification: 'OND/HND in Hospitality & Catering or Food Science; 3+ years institutional kitchen experience.', uploads: ['passport', 'cv', 'certificates', 'foodHygiene'] },
-  { slug: 'kitchen-attendant-cook', title: 'Kitchen Attendant / Cook', department: 'Food Services & Nutrition', summary: 'Prepare daily meals, manage ingredients and maintain kitchen sanitation.', qualification: 'SSCE, Trade Test in Catering or relevant apprenticeship; high-volume cooking experience.', uploads: ['passport', 'cv', 'certificates', 'medicalFitness'] },
-  { slug: 'messenger', title: 'Messenger / Errand', department: 'Campus Safety & Operations', summary: 'Handle document dispatch, campus errands and supply distribution.', qualification: 'FSLC or SSCE; trustworthy, punctual and numerate.', uploads: ['passport', 'cv', 'certificates', 'guarantor'] },
-  { slug: 'cleaner', title: 'Cleaner', department: 'Facilities & Maintenance', summary: 'Maintain sanitation across halls, offices, restrooms and residences.', qualification: 'FSLC or basic literacy; diligence, hygiene awareness and stamina.', uploads: ['passport'] },
-  { slug: 'gardener', title: 'Gardener', department: 'Facilities & Maintenance', summary: 'Manage landscaping, lawns, drainage pathways and campus greenery.', qualification: 'Experience in horticulture, landscaping or agricultural maintenance.', uploads: ['passport'] },
-  { slug: 'matron', title: 'Matron', department: 'Facilities & Maintenance', summary: 'Oversee female hostels, pastoral care, cleanliness and student welfare.', qualification: 'NCE, RN/RM, Community Health, Guidance & Counseling or Social Work.', uploads: ['passport', 'cv', 'certificates', 'healthCerts'] },
-] as const
-export type PositionSlug = typeof positions[number]['slug']
-export type RecruitmentForm = { position: PositionSlug; fullName: string; phone: string; gender: string; maritalStatus: string; dateOfBirth: string; address: string; nationality: string; state: string; lga: string; qualification: string; specialization: string; secondarySchool: string; institution: string; yearGraduated: string; certificate: string; employed: string; employer: string; currentRole: string; salary: string; experience: string; taughtBefore: string; schoolName: string; subjects: string; yearsTaught: string; adminExperience: string; adminPosition: string; hizbProgress: number; quranCertificate: string; hadithBooks: string[]; arabicFluency: string; attested: boolean; files: Record<string, File | undefined> }
-export const initialRecruitment: RecruitmentForm = { position: 'teacher', fullName: '', phone: '+234', gender: '', maritalStatus: '', dateOfBirth: '', address: '', nationality: 'Nigerian', state: '', lga: '', qualification: '', specialization: '', secondarySchool: '', institution: '', yearGraduated: '', certificate: '', employed: '', employer: '', currentRole: '', salary: '', experience: '', taughtBefore: '', schoolName: '', subjects: '', yearsTaught: '', adminExperience: '', adminPosition: '', hizbProgress: 0, quranCertificate: '', hadithBooks: [], arabicFluency: '', attested: false, files: {} }
-export const recruitmentSteps = ['Position', 'Personal information', 'Education', 'Experience', 'Faith & language', 'Documents & review']
-export const requiresEducation = (p: PositionSlug) => !['cleaner', 'gardener', 'messenger'].includes(p)
-export const requiresEmployment = (p: PositionSlug) => !['cleaner', 'gardener'].includes(p)
-export const requiresCv = (p: PositionSlug) => !['cleaner', 'gardener'].includes(p)
-export const isAcademic = (p: PositionSlug) => ['head-teacher', 'teacher', 'ict-officer', 'secretary'].includes(p)
-export const isTeaching = (p: PositionSlug) => ['head-teacher', 'teacher'].includes(p)
-export const isHifzul = (p: PositionSlug) => p === 'teacher'
-export function getPosition(slug: string) { return positions.find(p => p.slug === slug) ?? positions[3] }
-export function applicationReference(position: PositionSlug) { return `ABR-STAFF-${position.slice(0, 3).toUpperCase()}-${Date.now().toString().slice(-6)}` }
-export type FieldErrors = Record<string, string>
-export const fileLabels: Record<string, string> = { passport: 'Passport photograph', cv: 'CV / Resume', certificates: 'Academic certificates', adminProofs: 'Administrative proof', transcripts: 'Academic transcripts', techCerts: 'Technical certificates', serviceCerts: 'Service / discharge certificates', id: 'Valid ID', guarantor: 'Guarantor form', foodHygiene: 'Food hygiene certificate', medicalFitness: 'Medical fitness certificate', healthCerts: 'Health / professional certificates' }
-export const fileAccept = 'image/jpeg,image/png,application/pdf'
-export const fileMaxMb = 10
-export const hadithBooks = ['Sahih al-Bukhari', 'Sahih Muslim', 'Sunan Abi Dawud', 'Jami at-Tirmidhi', 'Sunan an-Nasai', 'Sunan Ibn Majah', 'Muwatta Malik', 'Musnad Ahmad', 'Riyadh as-Salihin', 'Bulugh al-Maram', 'Al-Arbain an-Nawawiyyah', 'Umdat al-Ahkam', 'Mishkat al-Masabih']
+export type Department =
+  | 'Administrative & Leadership'
+  | 'Academic & Religious Faculty'
+  | 'Technical & ICT'
+  | 'Campus Safety & Operations'
+  | 'Food Services & Nutrition'
+  | 'Facilities & Maintenance'
 
-export const nigerianStates: Record<string, string[]> = { Jigawa: ['Auyo','Babura','Birnin Kudu','Biriniwa','Buji','Dutse','Gagarawa','Garki','Gumel','Guri','Gwaram','Gwiwa','Hadejia','Jahun','Kafin Hausa','Kaugama','Kazaure','Kiri Kasama','Kiyawa','Maigatari','Malam Madori','Miga','Ringim','Roni','Sule Tankarkar','Taura','Yankwashi'], Kano: ['Ajingi','Albasu','Bagwai','Bebeji','Bichi','Bunkure','Dala','Dambatta','Dawakin Kudu','Dawakin Tofa','Doguwa','Fagge','Gabasawa','Garko','Garun Mallam','Gaya','Gezawa','Gwale','Gwarzo','Kabo','Kano Municipal','Karaye','Kibiya','Kiru','Kumbotso','Kunchi','Kura','Madobi','Makoda','Minjibir','Nassarawa','Rano','Rimin Gado','Rogo','Shanono','Sumaila','Takai','Tarauni','Tofa','Tsanyawa','Tudun Wada','Ungogo','Warawa','Wudil'], Kaduna: ['Birnin Gwari','Chikun','Giwa','Igabi','Ikara','Jaba','Jema’a','Kachia','Kaduna North','Kaduna South','Kagarko','Kajuru','Kaura','Kauru','Kubau','Kudan','Lere','Makarfi','Sabon Gari','Sanga','Soba','Zangon Kataf','Zaria'], 'Abuja FCT': ['Abaji','Bwari','Gwagwalada','Kuje','Kwali','Municipal Area Council'], Lagos: ['Agege','Ajeromi-Ifelodun','Alimosho','Amuwo-Odofin','Apapa','Badagry','Epe','Eti-Osa','Ibeju-Lekki','Ifako-Ijaiye','Ikeja','Ikorodu','Kosofe','Lagos Island','Lagos Mainland','Mushin','Ojo','Oshodi-Isolo','Shomolu','Surulere'] }
-Object.assign(nigerianStates, { Abia: [], Adamawa: [], 'Akwa Ibom': [], Anambra: [], Bauchi: [], Bayelsa: [], Benue: [], Borno: [], 'Cross River': [], Delta: [], Ebonyi: [], Edo: [], Ekiti: [], Enugu: [], Gombe: [], Imo: [], Kogi: [], Kebbi: [], Katsina: [], Kwara: [], Nasarawa: [], Niger: [], Ogun: [], Ondo: [], Osun: [], Oyo: [], Plateau: [], Rivers: [], Sokoto: [], Taraba: [], Yobe: [], Zamfara: [] })
-Object.keys(nigerianStates).forEach(state => { if (!nigerianStates[state].length) nigerianStates[state] = ['Other / select LGA'] })
-export const years = Array.from({ length: 57 }, (_, i) => String(1970 + i))
-export const institutions = ['Ahmadu Bello University', 'Bayero University Kano', 'University of Abuja', 'University of Nigeria Nsukka', 'Federal College of Education', 'Other / Not Listed']
-export const certificates = ['Ph.D', 'M.Sc / M.Ed / M.A', 'B.Sc / B.Ed / B.A', 'HND', 'OND / ND', 'NCE', 'SSCE / WAEC / NECO', 'Trade Test / Technical Diploma', 'Other']
-export const departments = [...new Set(positions.map(p => p.department))]
-export const positionOptions = positions.map(p => p.title)
-export const slugFromTitle = (title: string) => positions.find(p => p.title === title)?.slug ?? 'teacher'
-export const titleFromSlug = (slug: PositionSlug) => getPosition(slug).title
-export const roleUploadKeys = (p: PositionSlug) => getPosition(p).uploads
-export const roleFiles = (p: PositionSlug) => roleUploadKeys(p).map(key => ({ key, label: fileLabels[key] ?? key }))
-export const stepForPosition = (p: PositionSlug) => isTeaching(p) ? recruitmentSteps : recruitmentSteps.filter(s => s !== 'Faith & language')
-export const MAX_FILE_BYTES = 100 * 1024 * 1024
-export const MIN_AGE = 18
-export const isValidNigerianPhone = (phone: string) => /^(\+234|0)[789][01]\d{8}$/.test(phone.replace(/\s/g, ''))
-export const isAdult = (date: string) => Boolean(date) && (Date.now() - new Date(date).getTime()) / 31557600000 >= MIN_AGE
-export const emptyErrors: FieldErrors = {}
+export type PositionSlug =
+  | 'head-teacher'
+  | 'secretary'
+  | 'ict-officer'
+  | 'teacher'
+  | 'security-officer'
+  | 'security-guard'
+  | 'kitchen-master'
+  | 'kitchen-attendant-cook'
+  | 'messenger'
+  | 'cleaner'
+  | 'gardener'
+  | 'matron'
+
+export interface PositionSpec {
+  slug: PositionSlug
+  title: string
+  department: Department
+  summary: string
+  qualifications: string
+  requiredUploads: string[]
+  cvRequired: boolean
+  isTeachingRole: boolean
+  isAcademicRole: boolean
+  hasAdminSection: boolean
+  hasFaithSection: boolean
+  category: 'leadership' | 'academic' | 'technical' | 'safety' | 'hospitality' | 'facilities'
+}
+
+export const positions: PositionSpec[] = [
+  {
+    slug: 'head-teacher',
+    title: 'Head Teacher',
+    department: 'Administrative & Leadership',
+    summary:
+      'Executive academic and administrative leader; oversees curriculum integration (Deen & Dunya), faculty supervision, regulatory compliance, and community outreach.',
+    qualifications:
+      'Master’s or B.Ed / B.Sc with PGDE; minimum 5–7 years proven school administrative/leadership experience; multilingual (English & Arabic preferred); TRCN registered.',
+    requiredUploads: ['passport', 'cv', 'degrees_pgde', 'admin_proofs'],
+    cvRequired: true,
+    isTeachingRole: true,
+    isAcademicRole: true,
+    hasAdminSection: true,
+    hasFaithSection: true,
+    category: 'leadership',
+  },
+  {
+    slug: 'secretary',
+    title: 'Secretary',
+    department: 'Administrative & Leadership',
+    summary:
+      'Manages front-office communications, board correspondence, e-registry, student files, institutional documentation, and executive scheduling.',
+    qualifications:
+      'B.Sc/HND in Secretarial Studies, Office Tech Management, English, or Mass Comm; minimum 2 years experience; elite typing speed, MS Office/Google Workspace fluency.',
+    requiredUploads: ['passport', 'cv', 'academic_certs'],
+    cvRequired: true,
+    isTeachingRole: false,
+    isAcademicRole: true,
+    hasAdminSection: false,
+    hasFaithSection: false,
+    category: 'leadership',
+  },
+  {
+    slug: 'ict-officer',
+    title: 'ICT Officer',
+    department: 'Technical & ICT',
+    summary:
+      'Architects and maintains campus local networks, computer laboratories, school portal infrastructure, hardware diagnostics, and staff digital literacy.',
+    qualifications:
+      'B.Sc/HND in Computer Science, Cybersecurity, Software Engineering, or IT; hands-on knowledge of network topology, Linux/Windows server administration, and full-stack web basics.',
+    requiredUploads: ['passport', 'cv', 'degree_diploma', 'tech_certs'],
+    cvRequired: true,
+    isTeachingRole: false,
+    isAcademicRole: true,
+    hasAdminSection: false,
+    hasFaithSection: false,
+    category: 'technical',
+  },
+  {
+    slug: 'teacher',
+    title: 'Teacher (General / Science / Arts / Tahfeez)',
+    department: 'Academic & Religious Faculty',
+    summary:
+      'Delivers subject mastery, prepares lesson plans, enforces classroom discipline, and implements integrated Western and Islamic learning paradigms.',
+    qualifications:
+      'Ph.D., M.Sc, B.Sc(Ed), B.A(Ed), B.Sc, HND, or NCE in relevant subject areas; TRCN certification or Islamic scholarship credentials (Tahfeez/Hadith fluency for religious tracks).',
+    requiredUploads: ['passport', 'cv', 'degree_nce', 'transcripts'],
+    cvRequired: true,
+    isTeachingRole: true,
+    isAcademicRole: true,
+    hasAdminSection: false,
+    hasFaithSection: true,
+    category: 'academic',
+  },
+  {
+    slug: 'security-officer',
+    title: 'Security Officer',
+    department: 'Campus Safety & Operations',
+    summary:
+      'Directs campus physical safety, coordinates guard details, investigates breaches, manages emergency responses, and liaises with law enforcement.',
+    qualifications:
+      'Retired Military/Police personnel, B.Sc/HND in Criminology or Security Studies; minimum 3 years supervisory security experience; certified in physical security protocols.',
+    requiredUploads: ['passport', 'cv', 'discharge_service', 'valid_id'],
+    cvRequired: true,
+    isTeachingRole: false,
+    isAcademicRole: false,
+    hasAdminSection: false,
+    hasFaithSection: false,
+    category: 'safety',
+  },
+  {
+    slug: 'security-guard',
+    title: 'Security Guard',
+    department: 'Campus Safety & Operations',
+    summary:
+      'Enforces perimeter access control, visitor screening, nighttime patrols, gate logs, and student safety protocols.',
+    qualifications:
+      'SSCE / WAEC / NECO / Trade Test; physical fitness, clean criminal record, basic English and Hausa communication; prior vigilante or corporate guard experience preferred.',
+    requiredUploads: ['passport', 'cv', 'ssce_cert', 'guarantor_form'],
+    cvRequired: true,
+    isTeachingRole: false,
+    isAcademicRole: false,
+    hasAdminSection: false,
+    hasFaithSection: false,
+    category: 'safety',
+  },
+  {
+    slug: 'kitchen-master',
+    title: 'Kitchen Master',
+    department: 'Food Services & Nutrition',
+    summary:
+      'Oversees campus culinary logistics, student dietary schedules, food storage inventories, hygiene compliance, and meal service execution.',
+    qualifications:
+      'OND/HND or National Diploma in Hospitality & Catering Management, or Food Science; minimum 3 years managing institutional kitchens or school dining halls.',
+    requiredUploads: ['passport', 'cv', 'food_hygiene', 'trade_test'],
+    cvRequired: true,
+    isTeachingRole: false,
+    isAcademicRole: false,
+    hasAdminSection: false,
+    hasFaithSection: false,
+    category: 'hospitality',
+  },
+  {
+    slug: 'kitchen-attendant-cook',
+    title: 'Kitchen Attendant / Cook',
+    department: 'Food Services & Nutrition',
+    summary:
+      'Prepares daily 3-square meals for boarding students and staff, handles ingredients, maintains kitchen sanitation, and manages meal serving.',
+    qualifications:
+      'SSCE, Trade Test Grade I/II in Catering, or relevant apprenticeship; proven experience in high-volume commercial/institutional cooking; food safety certified.',
+    requiredUploads: ['passport', 'cv', 'trade_test_ssce', 'medical_fitness'],
+    cvRequired: true,
+    isTeachingRole: false,
+    isAcademicRole: false,
+    hasAdminSection: false,
+    hasFaithSection: false,
+    category: 'hospitality',
+  },
+  {
+    slug: 'messenger',
+    title: 'Messenger / Errand',
+    department: 'Campus Safety & Operations',
+    summary:
+      'Handles document dispatch across departments, campus supply errands, office errands, and physical distribution of notices.',
+    qualifications:
+      'First School Leaving Certificate (FSLC) or SSCE; trustworthiness, punctuality, and basic literacy/numeracy.',
+    requiredUploads: ['passport', 'cv', 'fslc_ssce', 'guarantor_form'],
+    cvRequired: true,
+    isTeachingRole: false,
+    isAcademicRole: false,
+    hasAdminSection: false,
+    hasFaithSection: false,
+    category: 'safety',
+  },
+  {
+    slug: 'cleaner',
+    title: 'Cleaner',
+    department: 'Facilities & Maintenance',
+    summary:
+      'Ensures pristine sanitation across academic halls, offices, restrooms, and residential spaces; maintains chemical cleaning safety.',
+    qualifications:
+      'FSLC or basic literacy; demonstrated diligence, attention to hygiene, and stamina.',
+    requiredUploads: ['passport'],
+    cvRequired: false,
+    isTeachingRole: false,
+    isAcademicRole: false,
+    hasAdminSection: false,
+    hasFaithSection: false,
+    category: 'facilities',
+  },
+  {
+    slug: 'gardener',
+    title: 'Gardener',
+    department: 'Facilities & Maintenance',
+    summary:
+      'Manages campus landscaping, tree pruning, lawns, drainage pathways, and aesthetic greenery across the school perimeter.',
+    qualifications:
+      'Proven experience in horticulture, landscaping, or agricultural maintenance; stamina and skill with manual and motorized gardening tools.',
+    requiredUploads: ['passport'],
+    cvRequired: false,
+    isTeachingRole: false,
+    isAcademicRole: false,
+    hasAdminSection: false,
+    hasFaithSection: false,
+    category: 'facilities',
+  },
+  {
+    slug: 'matron',
+    title: 'Matron',
+    department: 'Facilities & Maintenance',
+    summary:
+      'Oversees female boarding hostels, student pastoral care, domestic cleanliness, emotional support, and disciplinary health checks.',
+    qualifications:
+      'NCE, Registered Nurse (RN/RM), Community Health Diploma, or B.Sc in Guidance & Counseling/Social Work; mature, compassionate, with boarding school hostel experience.',
+    requiredUploads: ['passport', 'cv', 'nursing_health_certs'],
+    cvRequired: true,
+    isTeachingRole: false,
+    isAcademicRole: false,
+    hasAdminSection: false,
+    hasFaithSection: false,
+    category: 'facilities',
+  },
+]
+
+export const departments: Department[] = [
+  'Administrative & Leadership',
+  'Academic & Religious Faculty',
+  'Technical & ICT',
+  'Campus Safety & Operations',
+  'Food Services & Nutrition',
+  'Facilities & Maintenance',
+]
+
+export const uploadFieldMeta: Record<string, { label: string; description: string }> = {
+  passport: {
+    label: 'Passport Photograph',
+    description: 'Clear, recent front-facing color passport photo (White or Red background). JPEG/PNG only, max 100MB.',
+  },
+  cv: {
+    label: 'Curriculum Vitae (CV / Resume)',
+    description: 'Updated comprehensive resume detailing education and professional experience. PDF or Word doc, max 10MB.',
+  },
+  degrees_pgde: {
+    label: 'Degree & PGDE Certificates',
+    description: 'B.Sc/B.Ed and Postgraduate Diploma in Education or Master’s certificate copies.',
+  },
+  admin_proofs: {
+    label: 'Administrative Proof & Testimonials',
+    description: 'Official appointment letters, commendations or reference from former school management.',
+  },
+  academic_certs: {
+    label: 'Academic Certifications',
+    description: 'B.Sc/HND, OND or secretarial training certificates.',
+  },
+  degree_diploma: {
+    label: 'Degree / Diploma Certificate',
+    description: 'B.Sc/HND in Computer Science, IT or related fields.',
+  },
+  tech_certs: {
+    label: 'Technical Certifications',
+    description: 'CCNA, CompTIA, AWS, Microsoft or related technical credentials (optional but recommended).',
+  },
+  degree_nce: {
+    label: 'Degree / NCE Certificate',
+    description: 'Ph.D, M.Sc, B.Ed, B.Sc or NCE relevant subject certificate.',
+  },
+  transcripts: {
+    label: 'Academic Transcripts',
+    description: 'Official academic transcript or statement of results.',
+  },
+  discharge_service: {
+    label: 'Discharge / Service Certificates',
+    description: 'Military/Police retirement or discharge testimonial, or professional security license.',
+  },
+  valid_id: {
+    label: 'Valid Government Issued ID',
+    description: 'National Identification Number (NIN) slip, Voter’s Card, Driver’s License, or International Passport.',
+  },
+  ssce_cert: {
+    label: 'SSCE / WAEC / NECO Certificate',
+    description: 'Senior Secondary Certificate Examination result slip or original certificate.',
+  },
+  guarantor_form: {
+    label: 'Guarantor Letter / Form',
+    description: 'Signed guarantor declaration with contact information from a respected community member.',
+  },
+  food_hygiene: {
+    label: 'Food Hygiene & Safety Certificate',
+    description: 'Institutional catering hygiene accreditation or trade certification.',
+  },
+  trade_test: {
+    label: 'Trade Test / Catering Diploma',
+    description: 'Federal Ministry of Labour Trade Test Grade I/II/III or catering institute certificate.',
+  },
+  trade_test_ssce: {
+    label: 'Trade Test or SSCE Slip',
+    description: 'Catering trade test certificate, apprenticeship letter, or SSCE result slip.',
+  },
+  medical_fitness: {
+    label: 'Medical Fitness Certificate',
+    description: 'Hospital fitness screening confirming suitability for food handling.',
+  },
+  fslc_ssce: {
+    label: 'FSLC or SSCE Certificate',
+    description: 'Primary school leaving certificate or secondary school certificate.',
+  },
+  nursing_health_certs: {
+    label: 'Nursing / Health / Counseling Certs',
+    description: 'RN/RM license, Community Health diploma, or counseling degree certificate.',
+  },
+  quran_cert: {
+    label: 'Qur’anic Memorization Certificate (Tahfeez)',
+    description: 'Official Ijazah or Tahfeez completion certificate from registered madrasah / markaz.',
+  },
+  musabaqah_cert: {
+    label: 'Musabaqah Award / Participation Proof',
+    description: 'Certificate or letter of participation in Qur’an recitation competition.',
+  },
+  arabic_cert: {
+    label: 'Arabic Language Daurah Certificate',
+    description: 'Certificate of attendance from intensive Arabic training or institute.',
+  },
+  salary_slip: {
+    label: 'Recent Salary Slip / Proof of Earnings',
+    description: 'Most recent pay slip or bank payment advice (PDF/PNG, max 10MB).',
+  },
+}
+
+export interface InstitutionEntry {
+  id: string
+  institutionName: string
+  customInstitution?: string
+  yearGraduated: string
+  certificateObtained: string
+  dateObtained: string
+  certificateFile?: File | string
+}
+
+export interface PreviousEmploymentEntry {
+  id: string
+  companyName: string
+  role: string
+  startDate: string
+  endDate: string
+}
+
+export interface HadithTaughtEntry {
+  id: string
+  bookTitle: string
+  institutionHalaqah: string
+  location: string
+  periodTaught: string
+}
+
+export interface RecruitmentFormData {
+  // Routing
+  position: PositionSlug
+  teacherTrack?: 'General' | 'Science' | 'Arts' | 'Tahfeez / Hifzul Wahyain'
+
+  // Section 1: Personal Information
+  fullName: string
+  phone: string
+  gender: 'Male' | 'Female' | ''
+  maritalStatus: 'Single' | 'Married' | 'Divorced' | 'Widowed' | ''
+  dateOfBirth: string
+  residentialAddress: string
+  nationality: string
+  state: string
+  lga: string
+  passportPhoto?: File | string
+
+  // Section 2: Educational Qualifications & Specialization
+  presentQualification: string
+  specialization: string
+
+  // Section 3: Teaching Experience (Teacher & Head Teacher)
+  hasTaughtBefore: 'Yes' | 'No' | ''
+  teachingSchoolName?: string
+  teachingSubjects?: string
+  teachingDurationValue?: number | string
+  teachingDurationUnit?: 'Days' | 'Months' | 'Years'
+  heldAdminPosition?: 'Yes' | 'No' | ''
+  adminPositionTitle?: string
+
+  // Section 4: Educational Background & Repeatable History
+  seniorSecondarySchool: string
+  institutionsAttended: InstitutionEntry[]
+
+  // Section 5: Employment Record & Current Status
+  isEmployed: 'Yes' | 'No' | ''
+  currentEmployer?: string
+  currentRank?: string
+  monthlySalary?: string
+  recentSalarySlip?: File | string
+  previousEmployments: PreviousEmploymentEntry[]
+  totalYearsOfService?: string
+
+  // Section 6: Academic, Professional & Language Background
+  hasProfessionalMembership: 'Yes' | 'No' | ''
+  profOrgName?: string
+  profOrgRank?: string
+  profOrgRegYear?: string
+
+  hasResearchWork: 'Yes' | 'No' | ''
+  researchTitle?: string
+  researchYear?: string
+  researchPublicationYear?: string
+  researchPublisher?: string
+
+  hasEnglishCert: 'Yes' | 'No' | ''
+  englishCertName?: string
+  englishCertYear?: string
+  englishCertInstitution?: string
+
+  // Section 7: Administrative Experience (Head Teacher strictly, Teacher optional)
+  administeredSchool: 'Yes' | 'No' | ''
+  adminRoleHeld?: string
+  adminSchoolAddress?: string
+  adminState?: string
+  adminDuration?: string
+  adminStudentPopulation?: number | string
+
+  // Section 8: Mastery of Qur’anic Recitation & Hifz (Tahfeez Track)
+  hizbProgress: number // 0 to 60
+  hasQuranCertificate: 'Yes' | 'No' | ''
+  quranAwardingInstitution?: string
+  quranDateOfAward?: string
+  quranCertFile?: File | string
+
+  participatedMusabaqah: 'Yes' | 'No' | ''
+  musabaqahYear?: string
+  musabaqahCategory?: string
+  musabaqahPosition?: string
+  musabaqahLevel?: 'LGA Level' | 'State Level' | 'National Level' | 'International Level' | ''
+  musabaqahCertFile?: File | string
+
+  attendedRecitationDaurah: 'Yes' | 'No' | ''
+  daurahHost?: string
+  daurahDuration?: string
+  daurahDate?: string
+
+  modesOfRecitation: string[]
+  otherRiwayah?: string
+
+  // Section 9: Knowledge of Hadith (Hifzul Wahyain & Islamic Faculty)
+  hadithBooksStudied: string[]
+  otherHadithBook?: string
+  hadithBooksTaught: HadithTaughtEntry[]
+  attendedHadithDaurah: 'Yes' | 'No' | ''
+  hadithDaurahOrg?: string
+  hadithDaurahYear?: string
+  hadithDaurahDuration?: string
+
+  // Section 10: Arabic Language Proficiency
+  speakArabicFluently: 'Yes' | 'No' | ''
+  formalArabicQualification: string
+  attendedArabicDaurah: 'Yes' | 'No' | ''
+  arabicDaurahHost?: string
+  arabicDaurahDate?: string
+  arabicDaurahCertFile?: File | string
+
+  // Section 11: Document Uploads & Curricula Vitae (CV) Rules
+  cvFile?: File | string
+  additionalFiles: Record<string, File | string | undefined>
+  attested: boolean
+  digitalSignature: string
+  signatureDate: string
+}
+
+export const initialInstitution: InstitutionEntry = {
+  id: 'inst-1',
+  institutionName: '',
+  yearGraduated: '',
+  certificateObtained: '',
+  dateObtained: '',
+}
+
+export const initialEmployment: PreviousEmploymentEntry = {
+  id: 'emp-1',
+  companyName: '',
+  role: '',
+  startDate: '',
+  endDate: '',
+}
+
+export const initialHadithTaught: HadithTaughtEntry = {
+  id: 'hadith-1',
+  bookTitle: '',
+  institutionHalaqah: '',
+  location: '',
+  periodTaught: '',
+}
+
+export const initialFormData: RecruitmentFormData = {
+  position: 'teacher',
+  teacherTrack: 'General',
+  fullName: '',
+  phone: '+234',
+  gender: '',
+  maritalStatus: '',
+  dateOfBirth: '',
+  residentialAddress: '',
+  nationality: 'Nigerian',
+  state: 'Jigawa',
+  lga: 'Dutse',
+
+  presentQualification: '',
+  specialization: '',
+
+  hasTaughtBefore: '',
+  teachingSchoolName: '',
+  teachingSubjects: '',
+  teachingDurationValue: '',
+  teachingDurationUnit: 'Years',
+  heldAdminPosition: '',
+  adminPositionTitle: '',
+
+  seniorSecondarySchool: '',
+  institutionsAttended: [initialInstitution],
+
+  isEmployed: '',
+  currentEmployer: '',
+  currentRank: '',
+  monthlySalary: '',
+  previousEmployments: [],
+  totalYearsOfService: '',
+
+  hasProfessionalMembership: '',
+  profOrgName: '',
+  profOrgRank: '',
+  profOrgRegYear: '',
+
+  hasResearchWork: '',
+  researchTitle: '',
+  researchYear: '',
+  researchPublicationYear: '',
+  researchPublisher: '',
+
+  hasEnglishCert: '',
+  englishCertName: '',
+  englishCertYear: '',
+  englishCertInstitution: '',
+
+  administeredSchool: '',
+  adminRoleHeld: '',
+  adminSchoolAddress: '',
+  adminState: 'Jigawa',
+  adminDuration: '',
+  adminStudentPopulation: '',
+
+  hizbProgress: 0,
+  hasQuranCertificate: '',
+  quranAwardingInstitution: '',
+  quranDateOfAward: '',
+
+  participatedMusabaqah: '',
+  musabaqahYear: '',
+  musabaqahCategory: '',
+  musabaqahPosition: '',
+  musabaqahLevel: '',
+
+  attendedRecitationDaurah: '',
+  daurahHost: '',
+  daurahDuration: '',
+  daurahDate: '',
+
+  modesOfRecitation: ["Hafs 'an 'Asim (حفص عن عاصم)"],
+  otherRiwayah: '',
+
+  hadithBooksStudied: [],
+  otherHadithBook: '',
+  hadithBooksTaught: [],
+  attendedHadithDaurah: '',
+  hadithDaurahOrg: '',
+  hadithDaurahYear: '',
+  hadithDaurahDuration: '',
+
+  speakArabicFluently: '',
+  formalArabicQualification: 'None',
+  attendedArabicDaurah: '',
+  arabicDaurahHost: '',
+  arabicDaurahDate: '',
+
+  additionalFiles: {},
+  attested: false,
+  digitalSignature: '',
+  signatureDate: new Date().toISOString().split('T')[0],
+}
+
+// Helpers
+export function getPosition(slug: string): PositionSpec {
+  return positions.find(p => p.slug === slug) ?? positions[3]
+}
+
+export function requiresCv(position: PositionSlug): boolean {
+  return getPosition(position).cvRequired
+}
+
+export function requiresEducationSection(position: PositionSlug): boolean {
+  // Shown for Head Teacher, Secretary, ICT Officer, Teacher, Security Officer, Matron, Kitchen Master
+  return [
+    'head-teacher',
+    'secretary',
+    'ict-officer',
+    'teacher',
+    'security-officer',
+    'matron',
+    'kitchen-master',
+  ].includes(position)
+}
+
+export function requiresAcademicRepeatable(position: PositionSlug): boolean {
+  return ['head-teacher', 'secretary', 'ict-officer', 'teacher', 'matron'].includes(position)
+}
+
+export function requiresTeachingSection(position: PositionSlug): boolean {
+  return ['teacher', 'head-teacher'].includes(position)
+}
+
+export function requiresEmploymentSection(position: PositionSlug): boolean {
+  return !['cleaner', 'gardener'].includes(position)
+}
+
+export function requiresProfessionalSection(position: PositionSlug): boolean {
+  return ['head-teacher', 'teacher', 'ict-officer', 'secretary'].includes(position)
+}
+
+export function requiresAdminSection(position: PositionSlug): boolean {
+  return position === 'head-teacher'
+}
+
+export function requiresFaithAndHadithSection(position: PositionSlug, track?: string): boolean {
+  if (position === 'teacher') return true
+  if (position === 'head-teacher') return true
+  return false
+}
+
+export function generateApplicationReference(position: PositionSlug): string {
+  const code = position.replace(/-/g, '').slice(0, 4).toUpperCase()
+  const random = Math.floor(100000 + Math.random() * 900000)
+  return `ABR-${code}-${random}`
+}

@@ -9,28 +9,21 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
+        url: '/logo.png',
+        type: 'image/png',
       },
       {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: '/favicon.ico',
       },
     ],
-    apple: '/apple-icon.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
   },
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  colorScheme: 'light',
+  themeColor: '#0B1E3D',
 }
 
 export default function RootLayout({
@@ -39,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased">
+    <html lang="en" className="light" style={{ colorScheme: 'light' }}>
+      <body className="antialiased bg-[#F8FAFC] text-[#0A0A0A]">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
